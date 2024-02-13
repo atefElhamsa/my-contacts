@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
-class SocialMediaIcon extends StatelessWidget {
+class ContactChannalCard extends StatelessWidget {
   String socialmedia;
   String socialmediaLink;
-  SocialMediaIcon({
+  ContactChannalCard({
     Key? key,
     required this.socialmedia,
     required this.socialmediaLink,
