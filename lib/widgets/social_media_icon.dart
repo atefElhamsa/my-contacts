@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/start.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class ContactChannalCard extends StatelessWidget {
@@ -17,14 +17,27 @@ class ContactChannalCard extends StatelessWidget {
       padding: EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.01),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return StartSocialMedia(
-                socialmedia: socialmedia,
-                socialmediaLink: socialmediaLink,
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.deepOrange),
+                  ),
+                  onPressed: () {
+                    launchUrl(
+                      Uri.parse(socialmediaLink),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  child: Text(
+                      "Start ${socialmedia.substring(0, socialmedia.length - 4)}"),
+                ),
               );
-            }),
+            },
           );
         },
         child: CircleAvatar(
