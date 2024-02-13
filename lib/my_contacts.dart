@@ -81,7 +81,7 @@ class MyContacts extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 itemBuilder: (context, index) {
-                  return SocialMediaIcon(
+                  return ContactChannalCard(
                     socialmedia: socialMedia.keys.toList()[index],
                     socialmediaLink: socialMedia.values.toList()[index],
                   );
