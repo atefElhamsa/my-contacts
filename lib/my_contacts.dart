@@ -1,25 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/social_media_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'widgets/social_media_icon.dart';
+
+import 'my-variables.dart';
 
 // ignore: must_be_immutable
-class MyContacts extends StatelessWidget {
+class MyContacts extends StatefulWidget {
   MyContacts({super.key});
+  @override
+  State<MyContacts> createState() => _MyContactsState();
+}
 
-  Map<String, String> socialMedia = {
-    "whatsapp.png" : "https://wa.me/+201552946586",
-    "facebook.png" : "https://www.facebook.com/atef.elhamsa.7",
-    "instagram.png" : "https://www.instagram.com/3atef_elhamsa_/",
-    "twitter.png" : "https://twitter.com/AtefElhamsa4",
-    "snapchat.png" : "https://www.snapchat.com/add/atefelhamsa?share_id=Upk2iq1hOcs&locale=en-GB",
-    "github.png" : "https://github.com/atefElhamsa",
-    "youtube.png" : "https://youtube.com/@atefelhamsa5377?si=_8O8FSdZ2h8AGDCh",
-    "tiktok.png" : "https://www.tiktok.com/@elhamsa6?_t=8jpeonnNH8P&_r=1",
+class _MyContactsState extends State<MyContacts> {
+
+  void changeMyState(){
+    setState(() {});
+  }
+
+  
+  final Map<String, String> socialMedia = {
+    "whatsapp.png": "https://wa.me/+201552946586",
+    "facebook.png": "https://www.facebook.com/atef.elhamsa.7",
+    "instagram.png": "https://www.instagram.com/3atef_elhamsa_/",
+    "twitter.png": "https://twitter.com/AtefElhamsa4",
+    "snapchat.png":
+        "https://www.snapchat.com/add/atefelhamsa?share_id=Upk2iq1hOcs&locale=en-GB",
+    "github.png": "https://github.com/atefElhamsa",
+    "youtube.png": "https://youtube.com/@atefelhamsa5377?si=_8O8FSdZ2h8AGDCh",
+    "tiktok.png": "https://www.tiktok.com/@elhamsa6?_t=8jpeonnNH8P&_r=1",
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(
+          "My Contacts",
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 8,
+            ),
+            child: IconButton(
+              onPressed: () {
+                myUrl == null
+                    ? launchUrl(Uri.parse("tel:+201552946586"))
+                    : launchUrl(
+                        myUrl!,
+                        mode: LaunchMode.externalApplication,
+                      );
+              },
+              icon: myplatform == null
+                  ? Icon(
+                      Icons.phone,
+                      size: 25,
+                      color: Colors.white,
+                    )
+                  : CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: AssetImage("assets/images/$myplatform"),
+                    ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: Color.fromARGB(255, 3, 7, 30),
       body: SizedBox(
         width: double.infinity,
@@ -84,6 +139,7 @@ class MyContacts extends StatelessWidget {
                   return ContactChannalCard(
                     socialmedia: socialMedia.keys.toList()[index],
                     socialmediaLink: socialMedia.values.toList()[index],
+                    changeState : changeMyState,
                   );
                 },
                 shrinkWrap: true,

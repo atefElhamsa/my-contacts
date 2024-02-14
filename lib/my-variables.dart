@@ -1,0 +1,2 @@
+String? myplatform;
+Uri? myUrl;
