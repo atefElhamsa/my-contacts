@@ -1,2 +1,0 @@
-String? myplatform;
-Uri? myUrl;

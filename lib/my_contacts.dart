@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/my_provider.dart';
 import 'package:flutter_application_1/widgets/social_media_icon.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'my-variables.dart';
 
 // ignore: must_be_immutable
 class MyContacts extends StatefulWidget {
@@ -13,11 +13,6 @@ class MyContacts extends StatefulWidget {
 
 class _MyContactsState extends State<MyContacts> {
 
-  void changeMyState(){
-    setState(() {});
-  }
-
-  
   final Map<String, String> socialMedia = {
     "whatsapp.png": "https://wa.me/+201552946586",
     "facebook.png": "https://www.facebook.com/atef.elhamsa.7",
@@ -47,30 +42,33 @@ class _MyContactsState extends State<MyContacts> {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 8,
-            ),
-            child: IconButton(
-              onPressed: () {
-                myUrl == null
-                    ? launchUrl(Uri.parse("tel:+201552946586"))
-                    : launchUrl(
-                        myUrl!,
-                        mode: LaunchMode.externalApplication,
-                      );
-              },
-              icon: myplatform == null
-                  ? Icon(
-                      Icons.phone,
-                      size: 25,
-                      color: Colors.white,
-                    )
-                  : CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: AssetImage("assets/images/$myplatform"),
-                    ),
+          Consumer<MyProvider>(
+            builder: (context, value, child) => Padding(
+              padding: const EdgeInsets.only(
+                right: 8,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  value.getMyUrl() == null
+                      ? launchUrl(Uri.parse("tel:+201552946586"))
+                      : launchUrl(
+                          value.getMyUrl()!,
+                          mode: LaunchMode.externalApplication,
+                        );
+                },
+                icon: value.getMyPlatform() == null
+                    ? Icon(
+                        Icons.phone,
+                        size: 25,
+                        color: Colors.white,
+                      )
+                    : CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        backgroundImage:
+                            AssetImage("assets/images/${value.getMyPlatform()}"),
+                      ),
+              ),
             ),
           ),
         ],
@@ -138,8 +136,8 @@ class _MyContactsState extends State<MyContacts> {
                 itemBuilder: (context, index) {
                   return ContactChannalCard(
                     socialmedia: socialMedia.keys.toList()[index],
-                    socialmediaLink: socialMedia.values.toList()[index],
-                    changeState : changeMyState,
+                    socialmediaLink:
+                        Uri.parse(socialMedia.values.toList()[index]),
                   );
                 },
                 shrinkWrap: true,
