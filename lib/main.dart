@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyProvider(),
+      create: (context) => ActionsIconProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "My Contacts",

@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/my_provider.dart';
 import 'package:flutter_application_1/widgets/social_media_icon.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
-class MyContacts extends StatefulWidget {
+class MyContacts extends StatelessWidget {
   MyContacts({super.key});
-  @override
-  State<MyContacts> createState() => _MyContactsState();
-}
-
-class _MyContactsState extends State<MyContacts> {
-
   final Map<String, String> socialMedia = {
     "whatsapp.png": "https://wa.me/+201552946586",
     "facebook.png": "https://www.facebook.com/atef.elhamsa.7",
@@ -42,21 +37,22 @@ class _MyContactsState extends State<MyContacts> {
           ),
         ),
         actions: [
-          Consumer<MyProvider>(
+          Selector<ActionsIconProvider, Tuple2<String?, Uri?>>(
+            selector: (p0, p1) => Tuple2(p1.getMyPlatform(), p1.getMyUrl()),
             builder: (context, value, child) => Padding(
               padding: const EdgeInsets.only(
                 right: 8,
               ),
               child: IconButton(
                 onPressed: () {
-                  value.getMyUrl() == null
+                  value.item2 == null
                       ? launchUrl(Uri.parse("tel:+201552946586"))
                       : launchUrl(
-                          value.getMyUrl()!,
+                          value.item2!,
                           mode: LaunchMode.externalApplication,
                         );
                 },
-                icon: value.getMyPlatform() == null
+                icon: value.item1 == null
                     ? Icon(
                         Icons.phone,
                         size: 25,
@@ -66,7 +62,7 @@ class _MyContactsState extends State<MyContacts> {
                         radius: 20,
                         backgroundColor: Colors.transparent,
                         backgroundImage:
-                            AssetImage("assets/images/${value.getMyPlatform()}"),
+                            AssetImage("assets/images/${value.item1}"),
                       ),
               ),
             ),
